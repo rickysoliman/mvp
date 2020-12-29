@@ -1,0 +1,286 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import {
+    Route,
+    NavLink,
+    HashRouter
+  } from "react-router-dom";
+import Piano from './components/Piano.jsx';
+import QuizMenu from './components/QuizMenu.jsx';
+import styled from 'styled-components';
+import axios from 'axios';
+import Main from './Main.jsx';
+import NoteNamesQuiz from './components/NoteNamesQuiz.jsx';
+import ChordsQuiz from './components/ChordsQuiz.jsx';
+import IntervalsQuiz from './components/IntervalsQuiz.jsx';
+
+const Label = styled.label`
+    font-family: Arial;
+    color: white;
+`;
+
+const Input = styled.input`
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+`;
+
+const Button = styled.button`
+    background-color: light-gray;
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
+const Div = styled.div`
+    font-family: Arial;
+    color: white;
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
+class App extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            loggedIn: false,
+            newUser: false,
+            firstname: '',
+            lastname: '',
+            email: '',
+            username: '',
+            passwordOne: '',
+            passwordTwo: '',
+            password: '',
+            user: '',
+            user_id: '',
+            noteNames: false,
+            chords: false,
+            intervals: false
+        }
+
+        this.renderNoteNames = this.renderNoteNames.bind(this);
+        this.renderChords = this.renderChords.bind(this);
+        this.renderIntervals = this.renderIntervals.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleLogin = this.handleLogin.bind(this); 
+        this.renderRegistrationForm = this.renderRegistrationForm.bind(this);
+        this.submitRegistration = this.submitRegistration.bind(this);
+        this.validateEmail = this.validateEmail.bind(this);
+        this.validateDoublePasswords = this.validateDoublePasswords.bind(this);
+        this.logOut = this.logOut.bind(this);
+    }
+
+    componentWillMount() {
+        if (this.props) {
+            this.setState({
+                loggedIn: this.props.loggedIn,
+                user: this.props.user,
+                noteNames: false,
+                chords: false,
+                intervals: false,
+                renderFunctions: {
+                    noteNames: this.renderNoteNames,
+                    chords: this.renderChords,
+                    intervals: this.renderIntervals
+                }
+            });
+        } else {
+            this.setState({
+                noteNames: false,
+                chords: false,
+                intervals: false,
+                renderFunctions: {
+                    noteNames: this.renderNoteNames,
+                    chords: this.renderChords,
+                    intervals: this.renderIntervals
+                }
+            });
+        }
+    }
+
+    renderNoteNames(e) {
+        this.setState({
+            noteNames: true,
+            chords: false,
+            intervals: false
+        });
+    }
+
+    renderChords(e) {
+        this.setState({
+            chords: true,
+            noteNames: false,
+            intervals: false
+        });
+    }
+
+    renderIntervals(e) {
+        this.setState({
+            intervals: true,
+            noteNames: false,
+            chords: false
+        });
+    }
+
+    // updates state for all input fields
+    handleChange(e) {
+        this.setState({
+            [e.target.id]: e.target.value
+        });
+    }
+
+    // logs in the user
+    handleLogin(e) {
+        e.preventDefault();
+        if ((this.state.username === '') || (this.state.password === '')) {
+            alert('Please enter a username and password.');
+        } else {
+            axios.get('/api/users')
+            .then(res => {
+                var data = res.data;
+                for (let i = 0; i < data.length; i++) {
+                    var current = data[i];
+                    if (current.username === this.state.username) {
+                        if (current.password === this.state.password) {
+                            this.setState({
+                                loggedIn: true,
+                                currentUser: current.firstname,
+                                user_id: current.user_id
+                            });
+                            break;
+                        } else {
+                            alert('Incorrect password');
+                            break;
+                        }
+                    }
+                }
+                if (!this.state.loggedIn) {
+                    alert('This user does not exist. Please register an account.');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        }
+    }
+
+    // renders registration form for new user
+    renderRegistrationForm() {
+        this.setState({
+            newUser: true
+        });
+    }
+    
+    // validates that the email address is in proper format
+    validateEmail(email) {
+        return (email.includes('@') && email.includes('.'));
+    }
+
+    // make sure both passwords match
+    validateDoublePasswords(a, b) {
+        return a === b;
+    }
+
+    // submits registration for new user
+    submitRegistration(e) {
+        e.preventDefault();
+        if (this.validateEmail(this.state.email) && this.validateDoublePasswords(this.state.passwordOne, this.state.passwordTwo)) {
+            axios.post('/api/users', {
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
+                email: this.state.email,
+                username: this.state.username,
+                password: this.state.passwordOne
+            })
+                .then(res => {
+                    this.setState({
+                        loggedIn: true
+                    });
+                    res.end();
+                })
+                .catch(err => {
+                    console.log('error posting data to database');
+                    console.log(err.stack);
+                });
+        } else {
+            if (!this.validateEmail(this.state.email)) {
+                alert('Please enter a valid email address');
+            } else if (!this.validateDoublePasswords(this.state.passwordOne, this.state.passwordTwo)) {
+                alert('Passwords do not match.');
+            }
+        }
+    }
+
+    // log out
+    logOut() {
+        this.setState({
+            loggedIn: false
+        });
+    }
+
+    render() {
+        // user is logged in
+        if (this.state.loggedIn) {
+            // note names quiz
+            if (this.state.noteNames) {
+                return <NoteNamesQuiz renderFunctions={this.state.renderFunctions} user={this.state.currentUser}/>
+            // chords quiz
+            } else if (this.state.chords) {
+                return <ChordsQuiz renderFunctions={this.state.renderFunctions} user={this.state.currentUser}/>
+            // intervals quiz
+            } else if (this.state.intervals) {
+                return <IntervalsQuiz renderFunctions={this.state.renderFunctions} user={this.state.currentUser}/>
+            // quiz menu
+            } else {
+                return <QuizMenu renderFunctions={this.state.renderFunctions} user={this.state.user} logOut={this.logOut}/>
+            }
+        // user is not logged in
+        } else {
+            // login page
+            if (!this.state.newUser) {
+                return (
+                    <form>
+                        <Label for="username">username</Label><br/>
+                        <Input onChange={this.handleChange} type="text" id="username" name="username"/><br/>
+                        <Label for="password">password</Label><br/>
+                        <Input onChange={this.handleChange} type="password" id="password" name="password"/><br/>
+                        <Button onClick={this.handleLogin}>Login</Button><br/>
+                        <Div onClick={this.renderRegistrationForm}>Register</Div>
+                    </form>
+                )
+            // registration page
+            } else {
+                return (
+                    <form>
+                        <Label for="firstName">First Name</Label><br/>
+                        <Input onChange={this.handleChange} type="text" id="firstname" name="firstName"/><br/>
+                        <Label for="lastName">Last Name</Label><br/>
+                        <Input onChange={this.handleChange} type="lastName" id="lastname" name="lastName"/><br/>
+                        <Label for="email">Email</Label><br/>
+                        <Input onChange={this.handleChange} type="email" id="email" name="email"/><br/>
+                        <Label for="username">Username</Label><br/>
+                        <Input onChange={this.handleChange} type="username" id="username" name="username"/><br/>
+                        <Label for="passwordOne">Password</Label><br/>
+                        <Input onChange={this.handleChange} type="password" id="passwordOne" name="passwordOne"/><br/>
+                        <Label for="passwordTwo">Re-enter Password</Label><br/>
+                        <Input onChange={this.handleChange} type="password" id="passwordTwo" name="passwordTwo"/><br/>
+                        <Button onClick={this.submitRegistration}>Register</Button>
+                    </form>
+                )
+            }
+        }
+    }
+}
+
+export default App;

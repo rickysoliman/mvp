@@ -155,7 +155,7 @@ class App extends React.Component {
                         if (current.password === this.state.password) {
                             this.setState({
                                 loggedIn: true,
-                                currentUser: current.firstname,
+                                user: current.firstname,
                                 user_id: current.user_id
                             });
                             break;

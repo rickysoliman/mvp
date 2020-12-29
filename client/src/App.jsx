@@ -205,6 +205,7 @@ class App extends React.Component {
             })
                 .then(res => {
                     this.setState({
+                        user: this.state.firstname,
                         loggedIn: true
                     });
                     res.end();

@@ -82,10 +82,6 @@ class NoteNamesQuiz extends React.Component {
         });
     }
 
-    // render() {
-    //     return <div>Note Names</div>
-    // }
-
     render() {
         if (this.state.done) {
             return <QuizResults answers={this.state.answers} notes={this.state.notes} renderFunctions={this.state.renderFunctions} user={this.state.user}/>

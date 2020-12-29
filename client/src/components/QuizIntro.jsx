@@ -44,6 +44,10 @@ class QuizIntro extends React.Component {
             this.setState({
                 message: 'For this quiz, please select the correct key based on the given note name. There will be twelve questions total. Good luck!'
             });
+        } else if (this.props.quizType === 'chords') {
+            this.setState({
+                message: 'For this quiz, please select the three notes that make up the given major chord. There will be twelve questions total. Good luck!'
+            });
         }
     }
 

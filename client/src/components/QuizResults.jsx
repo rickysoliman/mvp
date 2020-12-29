@@ -35,6 +35,19 @@ class QuizResults extends React.Component {
 
         this.calculateResults = this.calculateResults.bind(this);
         this.returnToMainMenu = this.returnToMainMenu.bind(this);
+        this.compareArrays = this.compareArrays.bind(this);
+    }
+
+    compareArrays(a, b) {
+        var sameLengths = a.length === b.length;
+        var sameValues = true;
+        for (let i = 0; i < a.length; i++) {
+            if (!b.includes(a[i])) {
+                sameValues = false;
+                break;
+            }
+        }
+        return (sameLengths && sameValues);
     }
 
     componentWillMount() {
@@ -45,14 +58,29 @@ class QuizResults extends React.Component {
         var questions = this.props.notes;
         var answers = this.props.answers;
         var rightAnswers = 0;
-        for (let i = 0; i < questions.length; i++) {
-            if (questions[i] === answers[i]) {
-                rightAnswers++;
+        if (this.props.chords) {
+            var chords = this.props.chords;
+            for (let i = 0; i < questions.length; i++) {
+                var note = questions[i];
+                var actual = answers[i];
+                var expected = chords[note];
+                if (this.compareArrays(actual, expected)) {
+                    rightAnswers++;
+                }
             }
+            this.setState({
+                correctAnswers: rightAnswers
+            });
+        } else {
+            for (let i = 0; i < questions.length; i++) {
+                if (questions[i] === answers[i]) {
+                    rightAnswers++;
+                }
+            }
+            this.setState({
+                correctAnswers: rightAnswers
+            });
         }
-        this.setState({
-            correctAnswers: rightAnswers
-        });
     }
 
     returnToMainMenu() {

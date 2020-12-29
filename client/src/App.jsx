@@ -234,13 +234,13 @@ class App extends React.Component {
         if (this.state.loggedIn) {
             // note names quiz
             if (this.state.noteNames) {
-                return <NoteNamesQuiz renderFunctions={this.state.renderFunctions} user={this.state.currentUser}/>
+                return <NoteNamesQuiz renderFunctions={this.state.renderFunctions} user={this.state.user}/>
             // chords quiz
             } else if (this.state.chords) {
-                return <ChordsQuiz renderFunctions={this.state.renderFunctions} user={this.state.currentUser}/>
+                return <ChordsQuiz renderFunctions={this.state.renderFunctions} user={this.state.user}/>
             // intervals quiz
             } else if (this.state.intervals) {
-                return <IntervalsQuiz renderFunctions={this.state.renderFunctions} user={this.state.currentUser}/>
+                return <IntervalsQuiz renderFunctions={this.state.renderFunctions} user={this.state.user}/>
             // quiz menu
             } else {
                 return <QuizMenu renderFunctions={this.state.renderFunctions} user={this.state.user} logOut={this.logOut}/>

@@ -110,7 +110,7 @@ class ChordsQuiz extends React.Component {
         } else {
             if (this.state.begun) {
                 return (
-                    <QuizQuestion question={this.state.notes[this.state.currentQuestionIndex]} savePendingAnswer={this.savePendingAnswer} saveAnswer={this.saveAnswer}/>
+                    <QuizQuestion quizType={'chords'} question={this.state.notes[this.state.currentQuestionIndex]} savePendingAnswer={this.savePendingAnswer} saveAnswer={this.saveAnswer}/>
                 )
             } else {
                 return <QuizIntro quizType={'chords'} beginQuiz={this.beginQuiz}/>

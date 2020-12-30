@@ -38,7 +38,7 @@ class QuizQuestion extends React.Component {
         return (
             <MainView>
                 <Div>{this.props.question}</Div>
-                <Piano savePendingAnswer={this.props.savePendingAnswer}/>
+                <Piano quizType={this.props.quizType} savePendingAnswer={this.props.savePendingAnswer}/>
                 <Button onClick={this.props.saveAnswer}>Submit</Button>
             </MainView>
         )

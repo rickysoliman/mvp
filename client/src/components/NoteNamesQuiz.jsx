@@ -88,7 +88,7 @@ class NoteNamesQuiz extends React.Component {
         } else {
             if (this.state.begun) {
                 return (
-                    <QuizQuestion question={this.state.notes[this.state.currentQuestionIndex]} savePendingAnswer={this.savePendingAnswer} saveAnswer={this.saveAnswer}/>
+                    <QuizQuestion quizType={'note names'} question={this.state.notes[this.state.currentQuestionIndex]} savePendingAnswer={this.savePendingAnswer} saveAnswer={this.saveAnswer}/>
                 )
             } else {
                 return <QuizIntro quizType={'noteNames'} beginQuiz={this.beginQuiz}/>

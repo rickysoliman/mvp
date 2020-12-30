@@ -119,7 +119,7 @@ class IntervalsQuiz extends React.Component {
         } else {
             if (this.state.begun) {
                 return (
-                    <QuizQuestion question={this.state.intervals[this.state.currentQuestionIndex]} savePendingAnswer={this.savePendingAnswer} saveAnswer={this.saveAnswer}/>
+                    <QuizQuestion quizType={'intervals'} question={this.state.intervals[this.state.currentQuestionIndex]} savePendingAnswer={this.savePendingAnswer} saveAnswer={this.saveAnswer}/>
                 )
             } else {
                 return <QuizIntro quizType={'intervals'} beginQuiz={this.beginQuiz}/>

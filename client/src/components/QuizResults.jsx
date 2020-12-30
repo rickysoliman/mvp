@@ -55,7 +55,7 @@ class QuizResults extends React.Component {
     }
 
     calculateResults() {
-        var questions = this.props.notes;
+        var questions = this.props.questions;
         var answers = this.props.answers;
         var rightAnswers = 0;
         if (this.props.chords) {
@@ -90,13 +90,13 @@ class QuizResults extends React.Component {
     }
 
     render() {
-        var score = Math.round((this.state.correctAnswers / 12) * 100);
+        var score = Math.round((this.state.correctAnswers / this.props.questions.length) * 100);
         if (this.state.returnToMainMenu) {
             return <App loggedIn={true} user={this.state.user}/>
         } else {
             return (
                 <>
-                    <Div>You answered {this.state.correctAnswers} out of 12 questions correctly!</Div>
+                    <Div>You answered {this.state.correctAnswers} out of {this.props.questions.length} questions correctly!</Div>
                     <Div>Score: {score}%</Div>
                     <Button onClick={this.returnToMainMenu}>Main Menu</Button>
                 </>

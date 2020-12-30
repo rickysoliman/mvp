@@ -48,6 +48,10 @@ class QuizIntro extends React.Component {
             this.setState({
                 message: 'For this quiz, please select the three notes that make up the given major chord. There will be twelve questions total. Good luck!'
             });
+        } else if (this.props.quizType === 'intervals') {
+            this.setState({
+                message: 'For this quiz, you will be given an interval. Please select the note that is the given interval above C. There will be eleven questions total. Good luck!'
+            });
         }
     }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import Piano from './Piano.jsx';
+import Keyboard from './Keyboard.jsx';
 import styled from 'styled-components';
 
 const MainView = styled.div`
@@ -38,7 +38,7 @@ class QuizQuestion extends React.Component {
         return (
             <MainView>
                 <Div>{this.props.question}</Div>
-                <Piano quizType={this.props.quizType} savePendingAnswer={this.props.savePendingAnswer}/>
+                <Keyboard quizType={this.props.quizType} savePendingAnswer={this.props.savePendingAnswer} saveAnswer={this.props.saveAnswer}/>
                 <Button onClick={this.props.saveAnswer}>Submit</Button>
             </MainView>
         )

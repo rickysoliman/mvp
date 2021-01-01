@@ -36,6 +36,7 @@ class Key extends React.Component {
     }
 
     handleClick() {
+        // this.props.onClick();
         this.setState({
             selected: !this.state.selected
         });
@@ -43,9 +44,9 @@ class Key extends React.Component {
 
     render() {
         if (this.props.color === 'white') {
-            return <WhiteKey selected={this.state.selected} onClick={this.handleClick} id={this.id} class={`key ${this.props.color}`}></WhiteKey>
+            return <WhiteKey selected={this.state.selected} onClick={this.props.onClick} id={this.props.id} class={`key ${this.props.color}`}></WhiteKey>
         } else if (this.props.color === 'black') {
-            return <BlackKey selected={this.state.selected} onClick={this.handleClick} id={this.props.id} class={`key ${this.props.color}`}></BlackKey>
+            return <BlackKey selected={this.state.selected} onClick={this.props.onClick} id={this.props.id} class={`key ${this.props.color}`}></BlackKey>
         }
     }
 }

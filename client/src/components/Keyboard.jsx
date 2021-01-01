@@ -17,6 +17,7 @@ class Keyboard extends React.Component {
     handleClick(e) {
         var noteName = e.target.id;
         console.log(noteName);
+        this.props.saveAnswer;
         this.props.savePendingAnswer(noteName);
         var audio = document.getElementById(`${noteName}note`);
         audio.play();

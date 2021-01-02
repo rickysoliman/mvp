@@ -1,10 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import Main from '../Main.jsx';
-import NoteNamesQuiz from './NoteNamesQuiz.jsx';
-import ChordsQuiz from './ChordsQuiz.jsx';
-import IntervalsQuiz from './IntervalsQuiz.jsx';
 
 const MainView = styled.div`
     display: flex;

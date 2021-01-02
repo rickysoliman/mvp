@@ -15,7 +15,7 @@ class ChordsQuiz extends React.Component {
             chords: {
                 'C': ['C', 'E', 'G'],
                 'Db': ['Db', 'F', 'Ab'],
-                'D': ['D', 'Eb', 'A'],
+                'D': ['D', 'Gb', 'A'],
                 'Eb': ['Eb', 'G', 'Bb'],
                 'E': ['E', 'Ab', 'B'],
                 'F': ['F', 'A', 'C'],
@@ -41,6 +41,7 @@ class ChordsQuiz extends React.Component {
         this.saveAnswer = this.saveAnswer.bind(this);
         this.savePendingAnswer = this.savePendingAnswer.bind(this);
         this.beginQuiz = this.beginQuiz.bind(this);
+        this.resetAnswer = this.resetAnswer.bind(this);
     }
 
     componentWillMount() {
@@ -104,13 +105,19 @@ class ChordsQuiz extends React.Component {
         });
     }
 
+    resetAnswer() {
+        this.setState({
+            pendingAnswer: []
+        });
+    }
+
     render() {
         if (this.state.done) {
             return <QuizResults answers={this.state.answers} questions={this.state.notes} renderFunctions={this.state.renderFunctions} user={this.state.user} chords={this.state.chords}/>
         } else {
             if (this.state.begun) {
                 return (
-                    <QuizQuestion quizType={'chords'} question={this.state.notes[this.state.currentQuestionIndex]} savePendingAnswer={this.savePendingAnswer} saveAnswer={this.saveAnswer}/>
+                    <QuizQuestion resetAnswer={this.resetAnswer} number={this.state.currentQuestionIndex} quizType={'chords'} question={this.state.notes[this.state.currentQuestionIndex]} savePendingAnswer={this.savePendingAnswer} saveAnswer={this.saveAnswer}/>
                 )
             } else {
                 return <QuizIntro quizType={'chords'} beginQuiz={this.beginQuiz}/>

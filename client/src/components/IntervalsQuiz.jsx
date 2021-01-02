@@ -28,6 +28,7 @@ class IntervalsQuiz extends React.Component {
         this.saveAnswer = this.saveAnswer.bind(this);
         this.savePendingAnswer = this.savePendingAnswer.bind(this);
         this.beginQuiz = this.beginQuiz.bind(this);
+        this.resetAnswer = this.resetAnswer.bind(this);
     }
 
     componentWillMount() {
@@ -102,14 +103,22 @@ class IntervalsQuiz extends React.Component {
     }
 
     savePendingAnswer(answer) {
-        this.setState({
-            pendingAnswer: answer
-        });
+        if (this.state.pendingAnswer === '') {
+            this.setState({
+                pendingAnswer: answer
+            });
+        }
     }
 
     beginQuiz() {
         this.setState({
             begun: true
+        });
+    }
+
+    resetAnswer() {
+        this.setState({
+            pendingAnswer: ''
         });
     }
 
@@ -119,7 +128,7 @@ class IntervalsQuiz extends React.Component {
         } else {
             if (this.state.begun) {
                 return (
-                    <QuizQuestion quizType={'intervals'} question={this.state.intervals[this.state.currentQuestionIndex]} savePendingAnswer={this.savePendingAnswer} saveAnswer={this.saveAnswer}/>
+                    <QuizQuestion resetAnswer={this.resetAnswer} number={this.state.currentQuestionIndex} quizType={'intervals'} question={this.state.intervals[this.state.currentQuestionIndex]} savePendingAnswer={this.savePendingAnswer} saveAnswer={this.saveAnswer}/>
                 )
             } else {
                 return <QuizIntro quizType={'intervals'} beginQuiz={this.beginQuiz}/>

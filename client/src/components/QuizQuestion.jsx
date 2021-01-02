@@ -37,9 +37,9 @@ class QuizQuestion extends React.Component {
     render() {
         return (
             <MainView>
-                <Div>{this.props.question}</Div>
-                <Keyboard quizType={this.props.quizType} savePendingAnswer={this.props.savePendingAnswer} saveAnswer={this.props.saveAnswer}/>
-                <Button onClick={this.props.saveAnswer}>Submit</Button>
+                <Div>{this.props.number + 1}. {this.props.question}</Div>
+                <Keyboard questionNumber={this.props.number + 1} resetAnswer={this.props.resetAnswer} quizType={this.props.quizType} savePendingAnswer={this.props.savePendingAnswer} saveAnswer={this.props.saveAnswer}/>
+                {/* <Button onClick={this.props.saveAnswer}>Submit</Button> */}
             </MainView>
         )
     }

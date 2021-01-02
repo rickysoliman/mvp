@@ -1,15 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import {
-    Route,
-    NavLink,
-    HashRouter
-  } from "react-router-dom";
-import Piano from './components/Piano.jsx';
 import QuizMenu from './components/QuizMenu.jsx';
 import styled from 'styled-components';
 import axios from 'axios';
-import Main from './Main.jsx';
 import NoteNamesQuiz from './components/NoteNamesQuiz.jsx';
 import ChordsQuiz from './components/ChordsQuiz.jsx';
 import IntervalsQuiz from './components/IntervalsQuiz.jsx';

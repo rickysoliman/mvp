@@ -27,6 +27,7 @@ class NoteNamesQuiz extends React.Component {
         this.saveAnswer = this.saveAnswer.bind(this);
         this.savePendingAnswer = this.savePendingAnswer.bind(this);
         this.beginQuiz = this.beginQuiz.bind(this);
+        this.resetAnswer = this.resetAnswer.bind(this);
     }
 
     componentWillMount() {
@@ -65,20 +66,29 @@ class NoteNamesQuiz extends React.Component {
         var updatedAnswers = this.state.answers;
         updatedAnswers.push(this.state.pendingAnswer);
         this.setState({
-            answers: updatedAnswers
+            answers: updatedAnswers,
+            pendingAnswer: ''
         });
         this.nextQuestion();
     }
 
     savePendingAnswer(answer) {
-        this.setState({
-            pendingAnswer: answer
-        });
+        if (this.state.pendingAnswer === '') {
+            this.setState({
+                pendingAnswer: answer
+            });
+        }
     }
 
     beginQuiz() {
         this.setState({
             begun: true
+        });
+    }
+
+    resetAnswer() {
+        this.setState({
+            pendingAnswer: ''
         });
     }
 
@@ -88,7 +98,7 @@ class NoteNamesQuiz extends React.Component {
         } else {
             if (this.state.begun) {
                 return (
-                    <QuizQuestion quizType={'note names'} question={this.state.notes[this.state.currentQuestionIndex]} savePendingAnswer={this.savePendingAnswer} saveAnswer={this.saveAnswer}/>
+                    <QuizQuestion resetAnswer={this.resetAnswer} number={this.state.currentQuestionIndex} quizType={'note names'} question={this.state.notes[this.state.currentQuestionIndex]} savePendingAnswer={this.savePendingAnswer} saveAnswer={this.saveAnswer}/>
                 )
             } else {
                 return <QuizIntro quizType={'noteNames'} beginQuiz={this.beginQuiz}/>

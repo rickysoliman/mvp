@@ -35,8 +35,19 @@ class Key extends React.Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
+    componentWillMount() {
+        this.setState({
+            selected: false
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({ 
+            selected: nextProps.selected
+        });
+    }
+
     handleClick() {
-        // this.props.onClick();
         this.setState({
             selected: !this.state.selected
         });

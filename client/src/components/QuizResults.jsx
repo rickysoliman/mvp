@@ -64,6 +64,10 @@ class QuizResults extends React.Component {
                 var note = questions[i];
                 var actual = answers[i];
                 var expected = chords[note];
+                console.log('actual:');
+                console.log(actual);
+                console.log('expected:');
+                console.log(expected);
                 if (this.compareArrays(actual, expected)) {
                     rightAnswers++;
                 }

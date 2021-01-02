@@ -6,19 +6,25 @@ import NoteNamesQuiz from './components/NoteNamesQuiz.jsx';
 import ChordsQuiz from './components/ChordsQuiz.jsx';
 import IntervalsQuiz from './components/IntervalsQuiz.jsx';
 
+const Title = styled.h1`
+    font-family: Tahoma;
+    color: black;
+`;
+
 const Label = styled.label`
     font-family: Arial;
     color: white;
 `;
 
 const Input = styled.input`
-    width: 100%;
+    width: 80%;
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
 `;
 
 const Button = styled.button`
+    border-radius: 10px;
     background-color: light-gray;
     border: none;
     color: black;
@@ -38,6 +44,20 @@ const Div = styled.div`
     &:hover {
         cursor: pointer;
     }
+`;
+
+const Form = styled.form`
+    text-align: center;
+    background-color: #ABB6C8;
+    border-radius: 15px;
+    width: 30em;
+    box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
 `;
 
 class App extends React.Component {
@@ -218,7 +238,8 @@ class App extends React.Component {
     // log out
     logOut() {
         this.setState({
-            loggedIn: false
+            loggedIn: false,
+            newUser: false
         });
     }
 
@@ -243,14 +264,21 @@ class App extends React.Component {
             // login page
             if (!this.state.newUser) {
                 return (
-                    <form>
-                        <Label for="username">username</Label><br/>
-                        <Input onChange={this.handleChange} type="text" id="username" name="username"/><br/>
-                        <Label for="password">password</Label><br/>
-                        <Input onChange={this.handleChange} type="password" id="password" name="password"/><br/>
-                        <Button onClick={this.handleLogin}>Login</Button><br/>
-                        <Div onClick={this.renderRegistrationForm}>Register</Div>
-                    </form>
+                    <>
+                        <Title>
+                            Welcome to Music Theory Professor!
+                        </Title>
+                        <Form>
+                            <Label for="username">username</Label><br/>
+                            <Input onChange={this.handleChange} type="text" id="username" name="username"/><br/>
+
+                            <Label for="password">password</Label><br/>
+                            <Input onChange={this.handleChange} type="password" id="password" name="password"/><br/>
+
+                            <Button onClick={this.handleLogin}>Login</Button><br/>
+                            <Div onClick={this.renderRegistrationForm}>Register</Div>
+                        </Form>
+                    </>
                 )
             // registration page
             } else {

@@ -8,10 +8,12 @@ const Board = styled.div`
 `;
 
 const Button = styled.button`
+    border-radius: 10px;
     background-color: light-gray;
-    border: none;
+    border: 2px solid black;
     color: black;
     padding: 15px 32px;
+    margin-top: 30px;
     text-align: center;
     text-decoration: none;
     display: inline-block;

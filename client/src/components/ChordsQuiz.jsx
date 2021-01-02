@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import QuizResults from './QuizResults.jsx';
 import QuizIntro from './QuizIntro.jsx';
 import QuizQuestion from './QuizQuestion.jsx';
@@ -78,13 +77,15 @@ class ChordsQuiz extends React.Component {
     }
 
     saveAnswer() {
-        var updatedAnswers = this.state.answers;
-        updatedAnswers.push(this.state.pendingAnswer);
-        this.setState({
-            answers: updatedAnswers,
-            pendingAnswer: []
-        });
-        this.nextQuestion();
+        if (this.state.pendingAnswer !== '') {
+            var updatedAnswers = this.state.answers;
+            updatedAnswers.push(this.state.pendingAnswer);
+            this.setState({
+                answers: updatedAnswers,
+                pendingAnswer: []
+            });
+            this.nextQuestion();
+        }
     }
 
     savePendingAnswer(answer) {

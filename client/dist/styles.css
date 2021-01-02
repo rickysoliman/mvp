@@ -3,7 +3,7 @@
 }
 
 body {
-    background-color: #9370DB;
+    background-color: #5D7599;
     margin: 0;
     min-height: 100vh;
     display: flex;
@@ -11,7 +11,8 @@ body {
     align-items: center;
 }
 
-/* #root {
-    margin: auto;
-    width: 50%;
-} */
+#root {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

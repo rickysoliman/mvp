@@ -2,7 +2,6 @@ import React from 'react';
 import QuizQuestion from './QuizQuestion.jsx';
 import QuizResults from './QuizResults.jsx';
 import QuizIntro from './QuizIntro.jsx';
-import styled from 'styled-components';
 
 class NoteNamesQuiz extends React.Component {
     constructor(props) {
@@ -63,13 +62,15 @@ class NoteNamesQuiz extends React.Component {
     }
 
     saveAnswer() {
-        var updatedAnswers = this.state.answers;
-        updatedAnswers.push(this.state.pendingAnswer);
-        this.setState({
-            answers: updatedAnswers,
-            pendingAnswer: ''
-        });
-        this.nextQuestion();
+        if (this.state.pendingAnswer !== '') {
+            var updatedAnswers = this.state.answers;
+            updatedAnswers.push(this.state.pendingAnswer);
+            this.setState({
+                answers: updatedAnswers,
+                pendingAnswer: ''
+            });
+            this.nextQuestion();
+        }
     }
 
     savePendingAnswer(answer) {

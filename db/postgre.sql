@@ -18,7 +18,19 @@ CREATE TABLE users (
     PRIMARY KEY (user_id)
 );
 
+CREATE TABLE quiz_results (
+    quiz_id SERIAL,
+    user_id INT NOT NULL,
+    quiz_type VARCHAR(50) NOT NULL,
+    score INT NOT NULL,
+    PRIMARY KEY (quiz_id),
+    CONSTRAINT fk_user
+        FOREIGN KEY(user_id) 
+            REFERENCES users(user_id)
+);
+
 SELECT * FROM users;
+SELECT * FROM quiz_results;
 
 /*
 \i '/Users/rickymarasigan/Desktop/mvp/db/postgre.sql';

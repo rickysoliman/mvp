@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import App from '../App.jsx';
 
 const OuterView = styled.div`
@@ -103,8 +104,11 @@ class QuizResults extends React.Component {
 
         this.state = {
             correctAnswers: 0,
+            score: 0,
             returnToMainMenu: false,
             user: this.props.user,
+            user_id: this.props.user_id,
+            quizType: this.props.quizType,
             renderFunctions: this.props.renderFunctions
         }
 
@@ -133,33 +137,47 @@ class QuizResults extends React.Component {
         var questions = this.props.questions;
         var answers = this.props.answers;
         var rightAnswers = 0;
+        var score;
+        var user = this.state.user;
+        var user_id = this.state.user_id;
+        var quizType = this.state.quizType;
         if (this.props.chords) {
             var chords = this.props.chords;
             for (let i = 0; i < questions.length; i++) {
                 var note = questions[i];
                 var actual = answers[i];
                 var expected = chords[note];
-                console.log('actual:');
-                console.log(actual);
-                console.log('expected:');
-                console.log(expected);
                 if (this.compareArrays(actual, expected)) {
                     rightAnswers++;
                 }
             }
-            this.setState({
-                correctAnswers: rightAnswers
-            });
         } else {
             for (let i = 0; i < questions.length; i++) {
                 if (questions[i] === answers[i]) {
                     rightAnswers++;
                 }
             }
-            this.setState({
-                correctAnswers: rightAnswers
-            });
         }
+        score = Math.round((rightAnswers / this.props.questions.length) * 100);
+        this.setState({
+            correctAnswers: rightAnswers,
+            score: score
+        });
+        axios.post('/api/quizresults', {
+            userId: user_id,
+            quizType: quizType,
+            score: score
+        })
+        .then(res => {
+            console.log('post request for quiz result sent');
+            console.log(user_id);
+            console.log(quizType);
+            console.log(score);
+            res.send('post request sent');
+        })
+        .catch(err => {
+            console.log(err.stack);
+        });
     }
 
     returnToMainMenu() {
@@ -172,7 +190,7 @@ class QuizResults extends React.Component {
         if (this.state.returnToMainMenu) {
             return <App loggedIn={true} user={this.state.user}/>
         } else {
-            var score = Math.round((this.state.correctAnswers / this.props.questions.length) * 100);
+            var score = this.state.score;
             var grade;
             var message;
             if (score >= 90 && score <= 100) {

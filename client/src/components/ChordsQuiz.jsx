@@ -9,6 +9,7 @@ class ChordsQuiz extends React.Component {
 
         this.state = {
             user: this.props.user,
+            user_id: this.props.user_id,
             renderFunctions: this.props.renderFunctions,
             done: false,
             chords: {
@@ -114,7 +115,7 @@ class ChordsQuiz extends React.Component {
 
     render() {
         if (this.state.done) {
-            return <QuizResults answers={this.state.answers} questions={this.state.notes} renderFunctions={this.state.renderFunctions} user={this.state.user} chords={this.state.chords}/>
+            return <QuizResults answers={this.state.answers} questions={this.state.notes} renderFunctions={this.state.renderFunctions} user={this.state.user} user_id={this.state.user_id} chords={this.state.chords} quizType={'chords'}/>
         } else {
             if (this.state.begun) {
                 return (

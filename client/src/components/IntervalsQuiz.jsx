@@ -9,6 +9,7 @@ class IntervalsQuiz extends React.Component {
 
         this.state = {
             user: this.props.user,
+            user_id: this.props.user_id,
             renderFunctions: this.props.renderFunctions,
             done: false,
             intervals: [
@@ -125,7 +126,7 @@ class IntervalsQuiz extends React.Component {
 
     render() {
         if (this.state.done) {
-            return <QuizResults answers={this.state.answers} questions={this.state.expectedAnswers} renderFunctions={this.state.renderFunctions} user={this.state.user} chords={this.state.chords}/>
+            return <QuizResults answers={this.state.answers} questions={this.state.expectedAnswers} renderFunctions={this.state.renderFunctions} user={this.state.user} user_id={this.state.user_id} chords={this.state.chords} quizType={'intervals'}/>
         } else {
             if (this.state.begun) {
                 return (

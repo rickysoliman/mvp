@@ -34,6 +34,7 @@ const Button = styled.button`
     font-size: 16px;
     &:hover {
         cursor: pointer;
+        border-color: blue;
     }
 `;
 

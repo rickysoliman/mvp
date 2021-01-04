@@ -188,7 +188,7 @@ class QuizResults extends React.Component {
 
     render() {
         if (this.state.returnToMainMenu) {
-            return <App loggedIn={true} user={this.state.user}/>
+            return <App loggedIn={true} user={this.state.user} user_id={this.state.user_id}/>
         } else {
             var score = this.state.score;
             var grade;

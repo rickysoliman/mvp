@@ -166,11 +166,19 @@ class App extends React.Component {
         this.logOut = this.logOut.bind(this);
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({ 
+            user: nextProps.user,
+            user_id: nextProps.user_id
+        });
+    }
+
     componentWillMount() {
         if (this.props) {
             this.setState({
                 loggedIn: this.props.loggedIn,
                 user: this.props.user,
+                user_id: this.props.user_id,
                 noteNames: false,
                 chords: false,
                 intervals: false,

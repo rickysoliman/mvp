@@ -1,18 +1,39 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const OuterView = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+const Img = styled.img`
+    position: absolute;
+    right: 45%;
+`;
+
 const Title = styled.h1`
     font-family: Tahoma;
     color: black;
+    text-decoration: underline;
+    display: flex;
+    justify-content: center;
 `;
 
-const MainView = styled.div`
+const SpeechBubbleView = styled.div`
     display: flex;
     flex-direction: column;
     text-align: center;
     width: 50%;
     justify-content: center;
     margin: 30px;
+`;
+
+const MiddleView = styled.div`
+    display: inline-block;
+    margin: auto;
+    position: absolute;
+    right: 20%;
+    bottom: 75%;
 `;
 
 const Div = styled.div`
@@ -40,9 +61,11 @@ const Button = styled.button`
 `;
 
 const SpeechBubble = styled.div`
-	position: relative;
+    position: absolute;
+    right: 20%;
     display: flex;
     justify-content: center;
+    align-items: center;
     background-color: #ABB6C8;
     border-radius: 15px;
     width: 30em;
@@ -101,15 +124,18 @@ class QuizIntro extends React.Component {
 
     render() {
         return (
-            <>
-                <Title>{this.state.title}</Title>
-                <SpeechBubble>
-                    <MainView>
-                        <Div>{this.state.message}</Div>
-                        <Button onClick={this.props.beginQuiz}>Begin Quiz</Button>
-                    </MainView>
-                </SpeechBubble>
-            </>
+            <OuterView>
+                <Img src="https://rickyspianonotes.s3-us-west-1.amazonaws.com/teacher.png"></Img>
+                <MiddleView>
+                    <Title>{this.state.title}</Title>
+                    <SpeechBubble>
+                        <SpeechBubbleView>
+                            <Div>{this.state.message}</Div>
+                            <Button onClick={this.props.beginQuiz}>Begin Quiz</Button>
+                        </SpeechBubbleView>
+                    </SpeechBubble>
+                </MiddleView>
+            </OuterView>
         )
     }
 }

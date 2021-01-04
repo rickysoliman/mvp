@@ -1,6 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const OuterView = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const Img = styled.img`
+    position: absolute;
+    right: 45%;
+`;
+
 const MainView = styled.div`
     display: flex;
     flex-direction: column;
@@ -36,13 +47,16 @@ const Message = styled.div`
 const Div = styled.div`
     font-family: Arial;
     color: white;
+    margin-top: 10px;
     &:hover {
         cursor: pointer;
+        text-decoration: underline;
     }
 `;
 
 const SpeechBubble = styled.div`
-	position: relative;
+    position: absolute;
+    right: 20%;
     display: flex;
     justify-content: center;
     background-color: #ABB6C8;
@@ -83,15 +97,18 @@ class QuizMenu extends React.Component {
 
     render() {
         return (
-            <SpeechBubble>
-                <MainView>
-                    <Message>Hello, {this.props.user}! What would you like to be quizzed on today?</Message>
-                    <Button onClick={this.state.renderFunctions.noteNames}>Note Names</Button>
-                    <Button onClick={this.state.renderFunctions.chords}>Major Chords</Button>
-                    <Button onClick={this.state.renderFunctions.intervals}>Intervals</Button>
-                    <Div onClick={this.props.logOut}>Log Out</Div>
-                </MainView>
-            </SpeechBubble>
+            <OuterView>
+                <Img src="https://rickyspianonotes.s3-us-west-1.amazonaws.com/teacher.png"></Img>
+                <SpeechBubble>
+                    <MainView>
+                        <Message>Hello, {this.props.user}! What would you like to be quizzed on today?</Message>
+                        <Button onClick={this.state.renderFunctions.noteNames}>Note Names</Button>
+                        <Button onClick={this.state.renderFunctions.chords}>Major Chords</Button>
+                        <Button onClick={this.state.renderFunctions.intervals}>Intervals</Button>
+                        <Div onClick={this.props.logOut}>Log Out</Div>
+                    </MainView>
+                </SpeechBubble>
+            </OuterView>
         )
     }
 }

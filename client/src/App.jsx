@@ -6,21 +6,40 @@ import NoteNamesQuiz from './components/NoteNamesQuiz.jsx';
 import ChordsQuiz from './components/ChordsQuiz.jsx';
 import IntervalsQuiz from './components/IntervalsQuiz.jsx';
 
+const OuterView = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
 const Title = styled.h1`
     font-family: Tahoma;
     color: black;
+    position: absolute;
+    text-align: center;
+    bottom: 70%;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
 `;
 
 const Label = styled.label`
     font-family: Arial;
     color: white;
+    padding: 20px;
 `;
 
 const Input = styled.input`
+    margin: auto;
     width: 80%;
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
+    &:hover {
+        border-color: blue;
+        background-color: light-gray;
+    }
 `;
 
 const Button = styled.button`
@@ -41,12 +60,25 @@ const Button = styled.button`
 const Div = styled.div`
     font-family: Arial;
     color: white;
+    margin-top: 10px;
     &:hover {
         cursor: pointer;
+        text-decoration: underline;
     }
 `;
 
-const Form = styled.form`
+const LoginForm = styled.form`
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    max-width: 100%;
+    max-height: 27%;
+    overflow: auto;
+
     text-align: center;
     background-color: #ABB6C8;
     border-radius: 15px;
@@ -58,6 +90,45 @@ const Form = styled.form`
     0 22.3px 17.9px rgba(0, 0, 0, 0.072),
     0 41.8px 33.4px rgba(0, 0, 0, 0.086),
     0 100px 80px rgba(0, 0, 0, 0.12);
+`;
+
+const RegistrationForm = styled.form`
+    display: inline-block;
+    position: absolute;
+    // left: 0;
+    // right: 0;
+    // top: 0;
+    // bottom: 0;
+    margin: 3em;
+    max-width: auto%;
+    max-height: auto;
+    overflow: auto;
+
+    text-align: center;
+    background-color: #ABB6C8;
+    border-radius: 15px;
+    width: 30em;
+    box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
+`;
+
+const SmallButton = styled.div`
+    text-align: center;
+    vertical-align: middle;
+    margin: auto;
+    font-family: Arial;
+    color: white;
+    z-index: 2;
+    margin: 2em;
+    &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
 `;
 
 class App extends React.Component {
@@ -87,6 +158,7 @@ class App extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleLogin = this.handleLogin.bind(this); 
         this.renderRegistrationForm = this.renderRegistrationForm.bind(this);
+        this.renderLoginForm = this.renderLoginForm.bind(this);
         this.submitRegistration = this.submitRegistration.bind(this);
         this.validateEmail = this.validateEmail.bind(this);
         this.validateDoublePasswords = this.validateDoublePasswords.bind(this);
@@ -193,6 +265,12 @@ class App extends React.Component {
             newUser: true
         });
     }
+
+    renderLoginForm() {
+        this.setState({
+            newUser: false
+        });
+    }
     
     // validates that the email address is in proper format
     validateEmail(email) {
@@ -264,11 +342,11 @@ class App extends React.Component {
             // login page
             if (!this.state.newUser) {
                 return (
-                    <>
+                    <OuterView>
                         <Title>
                             Welcome to Music Theory Professor!
                         </Title>
-                        <Form>
+                        <LoginForm>
                             <Label for="username">username</Label><br/>
                             <Input onChange={this.handleChange} type="text" id="username" name="username"/><br/>
 
@@ -277,27 +355,30 @@ class App extends React.Component {
 
                             <Button onClick={this.handleLogin}>Login</Button><br/>
                             <Div onClick={this.renderRegistrationForm}>Register</Div>
-                        </Form>
-                    </>
+                        </LoginForm>
+                    </OuterView>
                 )
             // registration page
             } else {
                 return (
-                    <form>
-                        <Label for="firstName">First Name</Label><br/>
-                        <Input onChange={this.handleChange} type="text" id="firstname" name="firstName"/><br/>
-                        <Label for="lastName">Last Name</Label><br/>
-                        <Input onChange={this.handleChange} type="lastName" id="lastname" name="lastName"/><br/>
-                        <Label for="email">Email</Label><br/>
-                        <Input onChange={this.handleChange} type="email" id="email" name="email"/><br/>
-                        <Label for="username">Username</Label><br/>
-                        <Input onChange={this.handleChange} type="username" id="username" name="username"/><br/>
-                        <Label for="passwordOne">Password</Label><br/>
-                        <Input onChange={this.handleChange} type="password" id="passwordOne" name="passwordOne"/><br/>
-                        <Label for="passwordTwo">Re-enter Password</Label><br/>
-                        <Input onChange={this.handleChange} type="password" id="passwordTwo" name="passwordTwo"/><br/>
-                        <Button onClick={this.submitRegistration}>Register</Button>
-                    </form>
+                    <OuterView>
+                        <RegistrationForm>
+                            <Label for="firstName">First Name</Label><br/>
+                            <Input onChange={this.handleChange} type="text" id="firstname" name="firstName"/><br/>
+                            <Label for="lastName">Last Name</Label><br/>
+                            <Input onChange={this.handleChange} type="lastName" id="lastname" name="lastName"/><br/>
+                            <Label for="email">Email</Label><br/>
+                            <Input onChange={this.handleChange} type="email" id="email" name="email"/><br/>
+                            <Label for="username">Username</Label><br/>
+                            <Input onChange={this.handleChange} type="username" id="username" name="username"/><br/>
+                            <Label for="passwordOne">Password</Label><br/>
+                            <Input onChange={this.handleChange} type="password" id="passwordOne" name="passwordOne"/><br/>
+                            <Label for="passwordTwo">Re-enter Password</Label><br/>
+                            <Input onChange={this.handleChange} type="password" id="passwordTwo" name="passwordTwo"/><br/>
+                            <Button onClick={this.submitRegistration}>Register</Button>
+                            <SmallButton onClick={this.renderLoginForm}>Already have an account? Click here to Log In</SmallButton>
+                        </RegistrationForm>
+                    </OuterView>
                 )
             }
         }

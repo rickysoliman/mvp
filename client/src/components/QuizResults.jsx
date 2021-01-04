@@ -2,12 +2,28 @@ import React from 'react';
 import styled from 'styled-components';
 import App from '../App.jsx';
 
+const OuterView = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const Img = styled.img`
+    position: absolute;
+    right: 45%;
+`;
+
 const Title = styled.h1`
     font-family: Tahoma;
     color: black;
+    position: relative;
+    bottom: 70%;
+    right: 20%;
+    text-align: center;
+    z-index: 2;
 `;
 
-const MainView = styled.div`
+const SpeechBubbleView = styled.div`
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -16,37 +32,34 @@ const MainView = styled.div`
     margin: 30px;
 `;
 
+const MiddleView = styled.div`
+    position: absolute;
+    right: 20%;
+    bottom: 65%;
+`;
+
 const Div = styled.div`
     display: flex;
     justify-content: center;
     font-family: Arial;
     color: white;
-    font-size: 15px;
-`;
-
-const Button = styled.button`
-    margin-top: 40px
-    border-radius: 10px;
-    background-color: light-gray;
-    border: none;
-    color: black;
-    padding: 15px 32px;
+    font-size: 20px;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    &:hover {
-        cursor: pointer;
-    }
+    margin: auto;
+    vertical-align: middle;
 `;
 
 const SpeechBubble = styled.div`
-	position: relative;
+    text-align: center;
+    margin: auto;
+    position: absolute;
+    right: 20%;
     display: flex;
     justify-content: center;
+    align-items: center;
     background-color: #ABB6C8;
     border-radius: 15px;
-    width: 30em;
+    width: 20em;
     box-shadow:
     0 2.8px 2.2px rgba(0, 0, 0, 0.034),
     0 6.7px 5.3px rgba(0, 0, 0, 0.048),
@@ -56,7 +69,6 @@ const SpeechBubble = styled.div`
     0 100px 80px rgba(0, 0, 0, 0.12);
 
     &:after {
-        content: '';
         position: absolute;
         left: 0%;
         top: 50%;
@@ -72,10 +84,15 @@ const SpeechBubble = styled.div`
 `;
 
 const SmallButton = styled.div`
+    text-align: center;
+    vertical-align: middle;
+    margin: auto;
     font-family: Arial;
-    color: black;
-    text-decoration: underline;
+    color: white;
+    z-index: 2;
+    margin: 2em;
     &:hover {
+        text-decoration: underline;
         cursor: pointer;
     }
 `;
@@ -159,19 +176,43 @@ class QuizResults extends React.Component {
             var grade;
             var message;
             if (score >= 90 && score <= 100) {
-                grade = 'A';
+                if (score >= 90 && score <= 93) {
+                    grade = 'A-';
+                } else if (score >= 94 && score <= 96) {
+                    grade = 'A';
+                } else if (score >= 97 && score <= 100) {
+                    grade = 'A+';
+                }
                 message = 'Fantastic work!';
             }
             if (score >= 80 && score <= 89) {
-                grade = 'B';
+                if (score >= 80 && score <= 83) {
+                    grade = 'B-';
+                } else if (score >= 84 && score <= 86) {
+                    grade = 'B';
+                } else if (score >= 87 && score <= 89) {
+                    grade = 'B+';
+                }
                 message = 'Nice job!';
             }
             if (score >= 70 && score <= 79) {
-                grade = 'C';
+                if (score >= 70 && score <= 73) {
+                    grade = 'C-';
+                } else if (score >= 74 && score <= 76) {
+                    grade = 'C';
+                } else if (score >= 77 && score <= 79) {
+                    grade = 'C+';
+                }
                 message = 'Great effort. Maybe spend a little more time studying and we\'ll get that score up!';
             }
             if (score >= 60 && score <= 69) {
-                grade = 'D';
+                if (score >= 60 && score <= 63) {
+                    grade = 'D-';
+                } else if (score >= 64 && score <= 66) {
+                    grade = 'D';
+                } else if (score >= 67 && score <= 69) {
+                    grade = 'D+';
+                }
                 message = 'Could be better. Let\'s spend a little more time studying.';
             }
             if (score >= 0 && score <= 59) {
@@ -179,17 +220,18 @@ class QuizResults extends React.Component {
                 message = 'Yikes. Not so great. Let\'s spend some more time studying.';
             }
             return (
-                <>
-                    <Title>Your final grade is: {grade}.</Title>
-                    <SpeechBubble>
-                        <MainView>
-                            <Div>You answered {this.state.correctAnswers} out of {this.props.questions.length} questions correctly.</Div>
-                            <Div>Score: {score}%</Div>
-                            <Div>{message}</Div>
-                            <SmallButton onClick={this.returnToMainMenu}>Main Menu</SmallButton>
-                        </MainView>
-                    </SpeechBubble>
-                </>
+                <OuterView>
+                    <Img src="https://rickyspianonotes.s3-us-west-1.amazonaws.com/teacher.png"></Img>
+                    <MiddleView>
+                        <Title>Your final grade is: {grade}</Title>
+                        <SpeechBubble>
+                            <SpeechBubbleView>
+                                <Div>You answered {this.state.correctAnswers} out of {this.props.questions.length} questions correctly, giving you a score of {score}% {message}</Div>
+                                <SmallButton onClick={this.returnToMainMenu}>Main Menu</SmallButton>
+                            </SpeechBubbleView>
+                        </SpeechBubble>
+                    </MiddleView>
+                </OuterView>
             )
         }
     }

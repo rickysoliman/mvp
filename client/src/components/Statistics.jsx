@@ -4,36 +4,48 @@ import axios from 'axios';
 import QuizMenu from './QuizMenu';
 
 const MainView = styled.div`
-    display: flex;
-    flex-direction: column;
+    display: inline-block;
+    margin: auto;
     text-align: center;
     width: 50%;
-    justify-content: center;
     margin: 30px;
+`;
+
+const Title = styled.h1`
+    display: flex;
+    justify-content: center;
+    font-family: Tahoma;
+    font-size: 1.5em;
+    text-decoration: underline;
+    color: black;
+    // position: relative;
+    // bottom: 70%;
+    // right: 20%;
+    text-align: center;
+    z-index: 2;
 `;
 
 const Message = styled.div`
     align: center;
     font-family: Arial;
     color: white;
-    font-size: 2em;
+    font-size: 1em;
+`;
+
+const StatContainer = styled.div`
+    // display: inline-block;
+    // text-align: left;
+    padding: 15px;
+    width: fit-content;
+    height: fit-content;
 `;
 
 const Container = styled.div`
     display: inline-block;
     margin: auto;
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
-    // margin: 3em;
-    // max-width: auto%;
-    // max-height: auto;
-    // overflow: auto;
-
-    // text-align: center;
     background-color: #ABB6C8;
     border-radius: 15px;
-    // width: 30em;
+    text-align: left;
     box-shadow:
     0 2.8px 2.2px rgba(0, 0, 0, 0.034),
     0 6.7px 5.3px rgba(0, 0, 0, 0.048),
@@ -70,7 +82,8 @@ class Statistics extends React.Component {
             chordsAverage: 0,
             intervalsAverage: 0,
             overallAverage: 0,
-            returnToMenu: false
+            returnToMenu: false,
+            noQuizzes: false
         }
 
         this.returnToMenu = this.returnToMenu.bind(this);
@@ -84,9 +97,20 @@ class Statistics extends React.Component {
     }
 
     componentWillMount() {
+        this.setState({
+            noteNamesAverage: 0,
+            chordsAverage: 0,
+            intervalsAverage: 0,
+            overallAverage: 0
+        });
         axios.get(`/api/quizresults/${this.state.user_id}`)
             .then(res => {
                 var data = res.data;
+                if (data.length === 0) {
+                    this.setState({
+                        noQuizzes: true
+                    });
+                }
 
                 var segregatedResults = {
                     noteNames: [],
@@ -111,33 +135,30 @@ class Statistics extends React.Component {
 
                 var overallAverage = Math.round(totalScore / data.length);
 
-                this.setState({
-                    segregatedResults: segregatedResults,
-                    overallAverage: overallAverage
-                });
-
                 var noteNamesTotal = 0;
                 for (let i = 0; i < this.state.segregatedResults.noteNames.length; i++) {
                     noteNamesTotal += this.state.segregatedResults.noteNames[i];
                 }
-                var noteNamesAverage = noteNamesTotal / this.state.segregatedResults.noteNames.length;
+                var noteNamesAverage = Math.round(noteNamesTotal / this.state.segregatedResults.noteNames.length);
 
                 var chordsTotal = 0;
                 for (let i = 0; i < this.state.segregatedResults.chords.length; i++) {
                     chordsTotal += this.state.segregatedResults.chords[i];
                 }
-                var chordsAverage = chordsTotal / this.state.segregatedResults.chords.length;
+                var chordsAverage = Math.round(chordsTotal / this.state.segregatedResults.chords.length);
 
                 var intervalsTotal = 0;
                 for (let i = 0; i < this.state.segregatedResults.intervals.length; i++) {
                     intervalsTotal += this.state.segregatedResults.intervals[i];
                 }
-                var intervalsAverage = intervalsTotal / this.state.segregatedResults.intervals.length;
+                var intervalsAverage = Math.round(intervalsTotal / this.state.segregatedResults.intervals.length);
 
                 this.setState({
                     noteNamesAverage: noteNamesAverage,
                     chordsAverage: chordsAverage,
-                    intervalsAverage: intervalsAverage
+                    intervalsAverage: intervalsAverage,
+                    segregatedResults: segregatedResults,
+                    overallAverage: overallAverage
                 });
             })
             .catch(err => {
@@ -149,18 +170,35 @@ class Statistics extends React.Component {
         if (this.state.returnToMenu) {
             return <QuizMenu renderFunctions={this.state.renderFunctions} user={this.state.user} logOut={this.props.logOut}/>
         } else {
-            return (
-                <MainView>
-                    <Container>
-                        <Message>Statistics</Message>
-                        <Message>Note Names Average: {this.state.noteNamesAverage}%</Message>
-                        <Message>Chords Average: {this.state.chordsAverage}%</Message>
-                        <Message>Intervals Average: {this.state.intervalsAverage}%</Message>
-                        <Message>Overall Average Score: {this.state.overallAverage}%</Message>
-                    </Container>
-                    <SmallButton onClick={this.returnToMenu}>Return to Menu</SmallButton>
-                </MainView>
-            )
+            if (this.state.noQuizzes) {
+                return (
+                    <MainView>
+                        <Message>You haven't taken any quizzes. Start quizzing yourself to see your results!</Message>
+                        <SmallButton onClick={this.returnToMenu}>Return to Menu</SmallButton>
+                    </MainView>
+                )
+            } else {
+                return (
+                    <MainView>
+                        <Container>
+                            <Title>Statistics</Title>
+                            <StatContainer>
+                                <Message>Note Names Average: {this.state.noteNamesAverage}%</Message>
+                            </StatContainer>
+                            <StatContainer>
+                                <Message>Chords Average: {this.state.chordsAverage}%</Message>
+                            </StatContainer>
+                            <StatContainer>
+                                <Message>Intervals Average: {this.state.intervalsAverage}%</Message>
+                            </StatContainer>
+                            <StatContainer>
+                                <Message>Overall Average Score: {this.state.overallAverage}%</Message>
+                            </StatContainer>
+                        </Container>
+                        <SmallButton onClick={this.returnToMenu}>Return to Menu</SmallButton>
+                    </MainView>
+                )
+            }
         }
     }
 }

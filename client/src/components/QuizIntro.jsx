@@ -29,8 +29,7 @@ const SpeechBubbleView = styled.div`
 `;
 
 const MiddleView = styled.div`
-    display: inline-block;
-    margin: auto;
+    margin: 0 auto;
     position: absolute;
     right: 20%;
     bottom: 75%;

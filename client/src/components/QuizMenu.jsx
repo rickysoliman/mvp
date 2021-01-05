@@ -96,7 +96,12 @@ class QuizMenu extends React.Component {
         }
     }
 
+    componentWillMount() {
+        this.state.renderFunctions.returnToMenu();
+    }
+
     render() {
+        console.log(this.state.renderFunctions);
         return (
             <OuterView>
                 <Img src="https://rickyspianonotes.s3-us-west-1.amazonaws.com/teacher.png"></Img>
@@ -106,6 +111,7 @@ class QuizMenu extends React.Component {
                         <Button onClick={this.state.renderFunctions.noteNames}>Note Names</Button>
                         <Button onClick={this.state.renderFunctions.chords}>Major Chords</Button>
                         <Button onClick={this.state.renderFunctions.intervals}>Intervals</Button>
+                        <Div onClick={this.props.renderFunctions.statistics}>Quiz Statistics</Div>
                         <Div onClick={this.props.logOut}>Log Out</Div>
                     </MainView>
                 </SpeechBubble>

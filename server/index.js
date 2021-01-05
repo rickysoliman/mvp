@@ -48,7 +48,7 @@ app.get('/api/quizresults', (request, response) => {
 
 // get quiz results by user id
 app.get('/api/quizresults/:user_id', (request, response) => {
-    var id = request.params.id;
+    var id = request.params.user_id;
     pool
         .query(`SELECT * FROM quiz_results WHERE user_id = ${id}`)
         .then(res => {

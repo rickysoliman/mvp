@@ -5,6 +5,7 @@ import axios from 'axios';
 import NoteNamesQuiz from './components/NoteNamesQuiz.jsx';
 import ChordsQuiz from './components/ChordsQuiz.jsx';
 import IntervalsQuiz from './components/IntervalsQuiz.jsx';
+import Statistics from './components/Statistics.jsx';
 
 const OuterView = styled.div`
     display: flex;
@@ -150,12 +151,15 @@ class App extends React.Component {
             user_id: '',
             noteNames: false,
             chords: false,
-            intervals: false
+            intervals: false,
+            statistics: false
         }
 
         this.renderNoteNames = this.renderNoteNames.bind(this);
         this.renderChords = this.renderChords.bind(this);
         this.renderIntervals = this.renderIntervals.bind(this);
+        this.renderStatistics = this.renderStatistics.bind(this);
+        this.returnToMenu = this.returnToMenu.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleLogin = this.handleLogin.bind(this); 
         this.renderRegistrationForm = this.renderRegistrationForm.bind(this);
@@ -169,7 +173,8 @@ class App extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.setState({ 
             user: nextProps.user,
-            user_id: nextProps.user_id
+            user_id: nextProps.user_id,
+            statistics: false
         });
     }
 
@@ -182,10 +187,13 @@ class App extends React.Component {
                 noteNames: false,
                 chords: false,
                 intervals: false,
+                statistics: false,
                 renderFunctions: {
                     noteNames: this.renderNoteNames,
                     chords: this.renderChords,
-                    intervals: this.renderIntervals
+                    intervals: this.renderIntervals,
+                    statistics: this.renderStatistics,
+                    returnToMenu: this.returnToMenu
                 }
             });
         } else {
@@ -193,10 +201,12 @@ class App extends React.Component {
                 noteNames: false,
                 chords: false,
                 intervals: false,
+                statistics: false,
                 renderFunctions: {
                     noteNames: this.renderNoteNames,
                     chords: this.renderChords,
-                    intervals: this.renderIntervals
+                    intervals: this.renderIntervals,
+                    statistics: this.renderStatistics
                 }
             });
         }
@@ -206,7 +216,8 @@ class App extends React.Component {
         this.setState({
             noteNames: true,
             chords: false,
-            intervals: false
+            intervals: false,
+            statistics: false
         });
     }
 
@@ -214,7 +225,8 @@ class App extends React.Component {
         this.setState({
             chords: true,
             noteNames: false,
-            intervals: false
+            intervals: false,
+            statistics: false
         });
     }
 
@@ -222,7 +234,26 @@ class App extends React.Component {
         this.setState({
             intervals: true,
             noteNames: false,
-            chords: false
+            chords: false,
+            statistics: false
+        });
+    }
+
+    renderStatistics(e) {
+        this.setState({
+            statistics: true,
+            noteNames: false,
+            chords: false,
+            intervals: false
+        });
+    }
+
+    returnToMenu(e) {
+        this.setState({
+            intervals: false,
+            noteNames: false,
+            chords: false,
+            statistics: false
         });
     }
 
@@ -326,7 +357,11 @@ class App extends React.Component {
     logOut() {
         this.setState({
             loggedIn: false,
-            newUser: false
+            newUser: false,
+            noteNames: false,
+            chords: false,
+            intervals: false,
+            statistics: false
         });
     }
 
@@ -342,7 +377,10 @@ class App extends React.Component {
             // intervals quiz
             } else if (this.state.intervals) {
                 return <IntervalsQuiz renderFunctions={this.state.renderFunctions} user={this.state.user} user_id={this.state.user_id}/>
-            // quiz menu
+            // statistics
+            } else if (this.state.statistics) {
+                return <Statistics renderFunctions={this.state.renderFunctions} user={this.state.user} user_id={this.state.user_id} logOut={this.logOut}/>
+            // do stuff
             } else {
                 return <QuizMenu renderFunctions={this.state.renderFunctions} user={this.state.user} logOut={this.logOut}/>
             }

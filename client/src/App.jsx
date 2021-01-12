@@ -361,7 +361,16 @@ class App extends React.Component {
             noteNames: false,
             chords: false,
             intervals: false,
-            statistics: false
+            statistics: false,
+            firstname: '',
+            lastname: '',
+            email: '',
+            username: '',
+            passwordOne: '',
+            passwordTwo: '',
+            password: '',
+            user: '',
+            user_id: ''
         });
     }
 

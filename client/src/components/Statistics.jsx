@@ -7,7 +7,8 @@ const MainView = styled.div`
     display: inline-block;
     margin: auto;
     text-align: center;
-    width: 50%;
+    width: 250px;
+    height: 300px;
     margin: 30px;
 `;
 
@@ -26,26 +27,54 @@ const Title = styled.h1`
 `;
 
 const Message = styled.div`
-    align: center;
-    font-family: Arial;
-    color: white;
-    font-size: 1em;
+    text-align: center;
+    font-family: Courier;
+    color: gray;
+    font-size: 0.75em;
+    padding: 10px;
+
+    list-style: none;
+    border-bottom: 1px dotted #ccc;
+    text-indent: 25px;
+    height: 100%;
+    // padding: 10px;
+    text-transform: capitalize;
+`;
+
+const Lines = styled.div`
+    border-left: 1px solid #ffaa9f;
+    border-right: 1px solid #ffaa9f;
+    width: 2px;
+    float: left;
+    height: 100%;
+    margin-left: 40px;
 `;
 
 const StatContainer = styled.div`
-    // display: inline-block;
-    // text-align: left;
-    padding: 15px;
-    width: fit-content;
-    height: fit-content;
+    color: #555;
+    font-size: 22px;
+    padding: 0 !important;
+    width: 100%;
+    font-family: courier, monospace;
+    border: 1px solid #dedede;
+
+    // padding: 15px;
+    // width: fit-content;
+    // height: fit-content;
 `;
 
-const Container = styled.div`
-    display: inline-block;
-    margin: auto;
-    background-color: #ABB6C8;
-    border-radius: 15px;
-    text-align: left;
+const Paper = styled.div`
+    background-color: #f5f5f5;
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+
+    // display: inline-block;
+    // margin: auto;
+    // background-color: #ABB6C8;
+    // border-radius: 15px;
+    // text-align: left;
     box-shadow:
     0 2.8px 2.2px rgba(0, 0, 0, 0.034),
     0 6.7px 5.3px rgba(0, 0, 0, 0.048),
@@ -67,6 +96,15 @@ const SmallButton = styled.div`
         text-decoration: underline;
         cursor: pointer;
     }
+`;
+
+const Grade = styled.div`
+    color: red;
+    font-size: 2em;
+`;
+
+const NoQuizzes = styled.div`
+    font-family: Tahoma;
 `;
 
 class Statistics extends React.Component {
@@ -97,12 +135,6 @@ class Statistics extends React.Component {
     }
 
     componentWillMount() {
-        this.setState({
-            noteNamesAverage: 0,
-            chordsAverage: 0,
-            intervalsAverage: 0,
-            overallAverage: 0
-        });
         axios.get(`/api/quizresults/${this.state.user_id}`)
             .then(res => {
                 var data = res.data;
@@ -136,22 +168,22 @@ class Statistics extends React.Component {
                 var overallAverage = Math.round(totalScore / data.length);
 
                 var noteNamesTotal = 0;
-                for (let i = 0; i < this.state.segregatedResults.noteNames.length; i++) {
-                    noteNamesTotal += this.state.segregatedResults.noteNames[i];
+                for (let i = 0; i < segregatedResults.noteNames.length; i++) {
+                    noteNamesTotal += segregatedResults.noteNames[i];
                 }
-                var noteNamesAverage = Math.round(noteNamesTotal / this.state.segregatedResults.noteNames.length);
+                var noteNamesAverage = Math.round(noteNamesTotal / segregatedResults.noteNames.length);
 
                 var chordsTotal = 0;
-                for (let i = 0; i < this.state.segregatedResults.chords.length; i++) {
-                    chordsTotal += this.state.segregatedResults.chords[i];
+                for (let i = 0; i < segregatedResults.chords.length; i++) {
+                    chordsTotal += segregatedResults.chords[i];
                 }
-                var chordsAverage = Math.round(chordsTotal / this.state.segregatedResults.chords.length);
+                var chordsAverage = Math.round(chordsTotal / segregatedResults.chords.length);
 
                 var intervalsTotal = 0;
-                for (let i = 0; i < this.state.segregatedResults.intervals.length; i++) {
-                    intervalsTotal += this.state.segregatedResults.intervals[i];
+                for (let i = 0; i < segregatedResults.intervals.length; i++) {
+                    intervalsTotal += segregatedResults.intervals[i];
                 }
-                var intervalsAverage = Math.round(intervalsTotal / this.state.segregatedResults.intervals.length);
+                var intervalsAverage = Math.round(intervalsTotal / segregatedResults.intervals.length);
 
                 this.setState({
                     noteNamesAverage: noteNamesAverage,
@@ -167,34 +199,89 @@ class Statistics extends React.Component {
     }
 
     render() {
+        var score = this.state.overallAverage;
+        var grade;
+        var message;
+        if (score >= 90 && score <= 100) {
+            if (score >= 90 && score <= 93) {
+                grade = 'A-';
+            } else if (score >= 94 && score <= 96) {
+                grade = 'A';
+            } else if (score >= 97 && score <= 100) {
+                grade = 'A+';
+            }
+            message = 'Fantastic work!';
+        }
+        if (score >= 80 && score <= 89) {
+            if (score >= 80 && score <= 83) {
+                grade = 'B-';
+            } else if (score >= 84 && score <= 86) {
+                grade = 'B';
+            } else if (score >= 87 && score <= 89) {
+                grade = 'B+';
+            }
+            message = 'Nice job!';
+        }
+        if (score >= 70 && score <= 79) {
+            if (score >= 70 && score <= 73) {
+                grade = 'C-';
+            } else if (score >= 74 && score <= 76) {
+                grade = 'C';
+            } else if (score >= 77 && score <= 79) {
+                grade = 'C+';
+            }
+            message = 'Great effort. Maybe spend a little more time studying and we\'ll get that score up!';
+        }
+        if (score >= 60 && score <= 69) {
+            if (score >= 60 && score <= 63) {
+                grade = 'D-';
+            } else if (score >= 64 && score <= 66) {
+                grade = 'D';
+            } else if (score >= 67 && score <= 69) {
+                grade = 'D+';
+            }
+            message = 'Could be better. Let\'s spend a little more time studying.';
+        }
+        if (score >= 0 && score <= 59) {
+            grade = 'F';
+            message = 'Yikes. Not so great. Let\'s spend some more time studying.';
+        }
         if (this.state.returnToMenu) {
             return <QuizMenu renderFunctions={this.state.renderFunctions} user={this.state.user} logOut={this.props.logOut}/>
         } else {
             if (this.state.noQuizzes) {
                 return (
                     <MainView>
-                        <Message>You haven't taken any quizzes. Start quizzing yourself to see your results!</Message>
+                        <NoQuizzes>You haven't taken any quizzes. Start quizzing yourself to see your results!</NoQuizzes>
                         <SmallButton onClick={this.returnToMenu}>Return to Menu</SmallButton>
                     </MainView>
                 )
             } else {
                 return (
                     <MainView>
-                        <Container>
-                            <Title>Statistics</Title>
+                        <Title>Statistics</Title>
+                        <Paper>
+                            <Lines/>
                             <StatContainer>
-                                <Message>Note Names Average: {this.state.noteNamesAverage}%</Message>
+                                <Message>Note Names: {this.state.noteNamesAverage}%</Message>
                             </StatContainer>
                             <StatContainer>
-                                <Message>Chords Average: {this.state.chordsAverage}%</Message>
+                                <Message>Chords: {this.state.chordsAverage}%</Message>
                             </StatContainer>
                             <StatContainer>
-                                <Message>Intervals Average: {this.state.intervalsAverage}%</Message>
+                                <Message>Intervals: {this.state.intervalsAverage}%</Message>
                             </StatContainer>
                             <StatContainer>
-                                <Message>Overall Average Score: {this.state.overallAverage}%</Message>
+                                <Message>Overall Score: {this.state.overallAverage}%</Message>
                             </StatContainer>
-                        </Container>
+                            <StatContainer>
+                                <div>Overall Grade:</div>
+                                <Grade>{grade}</Grade>
+                            </StatContainer>
+                            <StatContainer>
+                                <div>{message}</div>
+                            </StatContainer>
+                        </Paper>
                         <SmallButton onClick={this.returnToMenu}>Return to Menu</SmallButton>
                     </MainView>
                 )

@@ -98,6 +98,13 @@ const SmallButton = styled.div`
     }
 `;
 
+const Grade = styled.div`
+    color: red;
+    font-size: 3em;
+    font-family: Courier;
+    text-align: center;
+`;
+
 class QuizResults extends React.Component {
     constructor(props) {
         super(props);
@@ -241,7 +248,8 @@ class QuizResults extends React.Component {
                 <OuterView>
                     <Img src="https://rickyspianonotes.s3-us-west-1.amazonaws.com/teacher.png"></Img>
                     <MiddleView>
-                        <Title>Your final grade is: {grade}</Title>
+                        <Title>Your final grade is:</Title>
+                        <Grade>{grade}</Grade>
                         <SpeechBubble>
                             <SpeechBubbleView>
                                 <Div>You answered {this.state.correctAnswers} out of {this.props.questions.length} questions correctly, giving you a score of {score}% {message}</Div>

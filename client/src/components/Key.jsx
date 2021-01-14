@@ -8,7 +8,7 @@ const WhiteKey = styled.div`
     border: ${props => props.selected ? '5px solid #FF00FF' : '1px solid black'};
     &:hover {
         cursor: pointer;
-        background-color: #D3D3D3;
+        background-color: ${props => props.selected ? '#EE82EE' : '#D3D3D3'};
     }
 `;
 
@@ -22,7 +22,7 @@ const BlackKey = styled.div`
     border: ${props => props.selected ? '5px solid #FF00FF' : '2px solid black'};
     &:hover {
         cursor: pointer;
-        background-color: #D3D3D3;
+        background-color: ${props => props.selected ? '#EE82EE' : '#D3D3D3'};
     }
 `;
 
